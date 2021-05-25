@@ -9,6 +9,9 @@ bot = telebot.TeleBot(API_TOKEN)
 # when you have write '/notebook' bot shows you a message and puts in control mode (see: def get_nb)
 @bot.message_handler(commands=['notebook'])
 def start(message):
+    # next line checks if there is a file to work with
+    file_nb = open('notebook.txt', mode='ab+')
+    file_nb.close()
     bot.send_message(message.from_user.id, 
                      """Remote Notebook: \n /show - show all notes \n /write - create a new note
 /remove - clear the notebook \n /out - go out"""
