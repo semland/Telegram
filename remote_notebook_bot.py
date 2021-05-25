@@ -9,8 +9,10 @@ bot = telebot.TeleBot(API_TOKEN)
 # when you have write '/notebook' bot shows you a message and puts in control mode (see: def get_nb)
 @bot.message_handler(commands=['notebook'])
 def start(message):
-    bot.send_message(message.from_user.id, """Remote Notebook: \n /show - show all notes \n /write - create a new note
-/remove - clear the notebook \n /out - go out""")
+    bot.send_message(message.from_user.id, 
+                     """Remote Notebook: \n /show - show all notes \n /write - create a new note
+/remove - clear the notebook \n /out - go out"""
+                    )
     bot.register_next_step_handler(message, get_nb)
 
 # get_nb opens after command '/notebook' and closes after '/out'
@@ -22,7 +24,7 @@ def get_nb(message):
         bot.send_message(message.from_user.id, 'You have exit from Remote Notebook. To enter write /notebook')
     elif name == '/show':
         file_nb = open('notebook.txt', mode='r+')
-        bot.send_message(message.from_user.id, 'Notes in Remote Notenook: \n\n'+file_nb.read())
+        bot.send_message(message.from_user.id, 'Notes in Remote Notebook: \n\n'+file_nb.read())
         bot.register_next_step_handler(message, get_nb)
         file_nb.close()
     elif name == '/write':
@@ -32,8 +34,10 @@ def get_nb(message):
         bot.send_message(message.from_user.id, 'Enter password to clear')
         bot.register_next_step_handler(message, get_remover)
     else:
-        bot.send_message(message.from_user.id, """Remote Notebook: \n /show - show all notes \n /write - create a new note
-/remove - clear the notebook \n /out - go out""")
+        bot.send_message(message.from_user.id, 
+        """Remote Notebook: \n /show - show all notes \n /write - create a new note
+/remove - clear the notebook \n /out - go out"""
+                        )
         bot.register_next_step_handler(message, get_nb)
 
 # get_writed opens a 'notebook.txt' in directory with *.py file and adds a your note
@@ -45,15 +49,16 @@ def get_writer(message):
     file_nb.write('\n{}\n'.format(str(datetime.datetime.now())))
     file_nb.write(txt+'\n')
     bot.send_message(message.from_user.id, 'A note have been successfully added!')
-    bot.register_next_step_handler(message, get_nb)
     file_nb.close()
+    bot.register_next_step_handler(message, get_nb)
 
 def get_remover(message): #this function clear a notebook
-
+    # the password is 'aboba2021'
     if message.text == 'aboba2021':
-        file_nb = open('notebook.txt', mode='rb')
+        file_nb = open('notebook.txt', mode='w')
         file_nb.close()
         bot.send_message(message.from_user.id, 'Remote Notebook have been successfully cleared!')
+        bot.register_next_step_handler(message, get_remover)
     else:
         bot.send_message(message.from_user.id, 'Incorrect password')
         bot.register_next_step_handler(message, get_nb)
