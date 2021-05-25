@@ -5,11 +5,6 @@ import datetime
 API_TOKEN = 'YOUR_TOKEN' 
 
 bot = telebot.TeleBot(API_TOKEN)
-
-# when receiving any message, bot suggest go to the notebook
-@bot.message_handler(func=lambda message: True)
-def send_welcome(message):
-    bot.send_message(message.from_user.id, "/notebook - open the Remote Notebook")
     
 # when you have write '/notebook' bot shows you a message and puts in control mode (see: def get_nb)
 @bot.message_handler(commands=['notebook'])
@@ -63,4 +58,9 @@ def get_remover(message): #this function clear a notebook
         bot.send_message(message.from_user.id, 'Incorrect password')
         bot.register_next_step_handler(message, get_nb)
 
+# when receiving any message, bot suggests to go to the notebook
+@bot.message_handler(func=lambda message: True)
+def send_welcome(message):
+    bot.send_message(message.from_user.id, "/notebook - open the Remote Notebook")
+    
 bot.polling()
