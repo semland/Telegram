@@ -14,6 +14,6 @@ You can view the notebook and add notes to it. All records are dated using the d
 
 /out - exit Remote Notebook mode
 
-**cleaning-face_bot.py** (raw) - this telegram bot finds people's faces in the photo (using OpenCV) and paints them with an average color
+**cleaning-face_bot.py** (raw) - this telegram bot finds people's faces in the photo (using OpenCV) and fills them with an average color
 
 For the bot to work, you need to upload a photo as a document, then it will send the processed photo.
